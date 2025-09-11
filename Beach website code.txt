@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Travel Vibes</title>
+<style>
+
+        @media screen and (max-width: 600px) {
+
+            img, video {
+
+                width: 90% !important;
+
+            }
+
+            form {
+
+                width: 90% !important;
+
+            }
+
+            nav ul li {
+
+                display: block !important;
+
+                margin: 10px 0 !important;
+
+            }
+
+        }
+</style>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f8ff; color: #333; text-align: center;">
+<header style="background: linear-gradient(to right, #00c6ff, #0072ff); padding: 30px 0; color: white;">
+<h1 style="margin: 0; font-size: 2.5em;">Welcome to My Travel Vibes ✈️</h1>
+<p style="font-size: 1.2em;">Sharing my adventures, photos, and videos around the world!</p>
+</header>
+<nav style="background: #fff; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+<ul style="list-style: none; padding: 0; margin: 0;">
+<li style="display: inline; margin: 0 15px;">
+<a href="https://www.pexels.com/videos/" target="_blank" style="text-decoration: none; color: #0072ff; font-weight: bold;">Free Travel Videos</a>
+</li>
+<li style="display: inline; margin: 0 15px;">
+<a href="https://pixabay.com/videos/" target="_blank" style="text-decoration: none; color: #0072ff; font-weight: bold;">More Free Stock Videos</a>
+</li>
+</ul>
+</nav>
+<main style="padding: 40px 20px;">
+<!-- Favorite Destination -->
+<section style="margin-bottom: 50px;">
+<h2 style="font-size: 2em; color: #0072ff;">My Favorite Destination</h2>
+<p style="font-size: 1.1em;">One of my favorite places is the beach because it's super relaxing and peaceful.</p>
+<img src="https://images.pexels.com/photos/127160/pexels-photo-127160.jpeg" alt="Beach Vibes" width="500" style="border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 20px; transition: transform 0.3s; transform: rotateY(0deg);"
+
+                onmouseover="this.style.transform='rotateY(10deg)'" 
+
+                onmouseout="this.style.transform='rotateY(0deg)'">
+</section>
+<!-- Travel Video -->
+<section style="margin-bottom: 50px;">
+<h2 style="font-size: 2em; color: #0072ff;">Travel Video</h2>
+<video width="500" controls poster="https://images.pexels.com/photos/533923/pexels-photo-533923.jpeg" style="border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 20px; transition: transform 0.3s;"
+
+                onmouseover="this.style.transform='scale(1.05) rotate(1deg)'" 
+
+                onmouseout="this.style.transform='scale(1) rotate(0deg)'">
+<source src="https://player.vimeo.com/external/304786315.sd.mp4?s=2f21e48c09c2a8914a632d2ad76f2d6a9f97f6d6&profile_id=165" type="video/mp4">
+
+                Your browser does not support the video tag.
+</video>
+</section>
+<!-- Contact Form -->
+<section style="margin-bottom: 60px;">
+<h2 style="font-size: 2em; color: #0072ff;">Contact Me</h2>
+<form style="display: inline-block; text-align: left; width: 500px; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+<label for="name" style="display:block; margin-bottom: 5px; font-weight: bold;">Name:</label>
+<input type="text" id="name" name="name" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+<label for="email" style="display:block; margin-bottom: 5px; font-weight: bold;">Email:</label>
+<input type="email" id="email" name="email" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+<label for="message" style="display:block; margin-bottom: 5px; font-weight: bold;">Message:</label>
+<textarea id="message" name="message" rows="4" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+<button type="submit" style="width: 100%; background: #0072ff; color: white; padding: 10px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Send</button>
+</form>
+</section>
+</main>
+<footer style="background: #0072ff; color: white; padding: 20px 0;">
+<p style="margin: 0;">Kae Isent Quinto Website ❤️</p>
+</footer>
+</body>
+</html>
+Free 4K Stock Videos & Full HD Video Clips to Download
+Pexels Videos makes it easy to find free stock footage for your website, promo video or anything else. All videos are free for personal and commercial use.
+ 
