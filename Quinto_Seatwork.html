@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Button Reactions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    /* Shake Animation */
+    .shake {
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    #output, #text {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>✨ JavaScript Button Effects ✨</h2>
+
+  <!-- 1 -->
+  <button onclick="changeColor()">Change Background</button>
+
+  <!-- 2 -->
+  <button onclick="typeText()">Typewriter Effect</button>
+  <p id="output"></p>
+
+  <!-- 3 -->
+  <button id="shakeBtn" onclick="shake()">Shake Me</button>
+
+  <!-- 4 -->
+  <button onclick="dropEmoji()">Drop Emoji</button>
+
+  <!-- 5 -->
+  <button onclick="flipText()">Flip Text</button>
+  <p id="text">Normal Text</p>
+
+  <script>
+    // 1. Change Background Color
+    function changeColor() {
+      const colors = ["#FFDDC1", "#FF9AA2", "#A2E1DB", "#B5EAD7", "#C7CEEA"];
+      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // 2. Typewriter Effect
+function typeText() {
+  const text = "Hello, this is typing effect!";
+  let i = 0;
+  const output = document.getElementById("output");
+  output.textContent = "";
+  const interval = setInterval(() => {
+    output.textContent += text[i];
+    i++;
+    if (i === text.length) clearInterval(interval);
+  }, 100);
+}
+
+
+    // 3. Shake Button
+    function shake() {
+      const btn = document.getElementById("shakeBtn");
+      btn.classList.add("shake");
+      setTimeout(() => btn.classList.remove("shake"), 400);
+    }
+
+    // 4. Drop Emoji
+    function dropEmoji() {
+      const emoji = document.createElement("div");
+      emoji.textContent = "🌸";
+      emoji.style.position = "absolute";
+      emoji.style.left = Math.random() * window.innerWidth + "px";
+      emoji.style.top = "0px";
+      document.body.appendChild(emoji);
+
+      let pos = 0;
+      const fall = setInterval(() => {
+        pos += 5;
+        emoji.style.top = pos + "px";
+        if (pos > window.innerHeight) clearInterval(fall);
+      }, 50);
+    }
+
+    // 5. Flip Text (Toggle)
+function flipText() {
+  const text = document.getElementById("text");
+  if (text.style.transform === "rotate(180deg)") {
+    text.style.transform = "rotate(0deg)"; // balik sa normal
+  } else {
+    text.style.transform = "rotate(180deg)"; // baliktad
+  }
+}
+  </script>
+</body>
+</html>
