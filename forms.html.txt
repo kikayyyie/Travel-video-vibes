@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+
+    <!-- Success message will appear here -->
+    <div class="success-message" id="successMessage"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent page reload
+
+      // Get values
+      const name = document.getElementById('fullname').value;
+      const email = document.getElementById('email').value;
+
+      // Show personalized success message
+      successMessage.innerHTML = `✅ Registration Successful!<br>Welcome <strong>${name}</strong>, you registered using <strong>${email}</strong>.`;
+      successMessage.style.display = 'block';
+
+      // Clear form
+      form.reset();
+    });
+  </script>
+</body>
+</html>
