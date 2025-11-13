@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Temperature Guesser</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Configure Tailwind and set custom colors/fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Inter', 'sans-serif'], // Poppins as primary
+                    },
+                    colors: {
+                        'primary-accent': '#2dd4bf', // teal-400
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for better aesthetics and focus */
+        body {
+            background-color: #1a1a2e; /* Deep purple/navy background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            /* Sleek, dark card design */
+            background-color: #2c2c43;
+            border: 1px solid #4f4f6b;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.01);
+        }
+        /* Specific feedback styles */
+        .feedback {
+            min-height: 6rem; /* Make it taller */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800; /* Extra bold */
+            font-size: 1.75rem; /* Larger font size */
+            transition: background-color 0.5s, color 0.5s;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        /* Style for the button hover/focus effects */
+        .btn-primary {
+             background-color: #2dd4bf; /* Teal-400 */
+             color: #1a1a2e; /* Text matching background */
+             font-weight: 700;
+        }
+        .btn-primary:hover {
+             background-color: #14b8a6; /* Teal-500 */
+        }
+        .btn-secondary {
+             background-color: #4f4f6b;
+             color: #e5e7eb;
+        }
+        .btn-secondary:hover {
+             background-color: #6d6d88;
+        }
+    </style>
+</head>
+<body class="font-sans">
+
+<div id="game-container" class="card p-8 md:p-12 rounded-2xl max-w-md w-11/12">
+    <h1 class="text-4xl font-extrabold text-center text-gray-100 mb-2">
+        <span class="text-teal-400">THERMAL</span> GUESS
+    </h1>
+    <p class="text-center text-gray-400 mb-8 text-lg">Pinpoint the secret temperature (1 to 100).</p>
+
+    <!-- Feedback Area -->
+    <div id="feedback-message" class="feedback text-gray-200 bg-[#3a3a5e] mb-8">
+        Enter your first guess.
+    </div>
+
+    <!-- Game Controls -->
+    <div class="flex flex-col space-y-4">
+        <input
+            type="number"
+            id="guess-input"
+            placeholder="e.g., 50"
+            class="w-full p-4 border-2 border-teal-400 bg-[#1a1a2e] text-white rounded-xl focus:outline-none focus:ring-4 focus:ring-teal-500 focus:ring-opacity-50 text-2xl text-center font-bold"
+            min="1" max="100"
+            autofocus
+        >
+        <button
+            id="guess-button"
+            onclick="handleGuess()"
+            class="w-full py-4 btn-primary font-extrabold rounded-xl transition duration-150 active:scale-[0.98] disabled:bg-gray-500 disabled:text-gray-300"
+        >
+            CHECK TEMPERATURE
+        </button>
+        <button
+            id="new-game-button"
+            onclick="initGame()"
+            class="w-full py-3 btn-secondary font-semibold rounded-xl transition duration-150 mt-2"
+        >
+            START NEW GAME
+        </button>
+    </div>
+
+    <!-- Guesses Counter -->
+    <p class="text-center text-lg text-gray-400 mt-6">
+        Attempts: <span id="guess-count" class="font-bold text-teal-400 text-2xl">0</span>
+    </p>
+
+    <!-- Modal for Win/Error Messages -->
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm w-full">
+            <h3 id="modal-title" class="text-3xl font-extrabold mb-3 text-teal-600"></h3>
+            <p id="modal-body" class="text-gray-700 mb-6 text-lg"></p>
+            <button
+                onclick="document.getElementById('message-modal').classList.add('hidden')"
+                class="px-6 py-3 bg-teal-600 text-white font-bold rounded-lg hover:bg-teal-700 transition"
+            >
+                Continue
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let secretNumber;
+    let guessCount;
+    let isGameOver;
+
+    const inputElement = document.getElementById('guess-input');
+    const guessButton = document.getElementById('guess-button');
+    const countElement = document.getElementById('guess-count');
+    const feedbackElement = document.getElementById('feedback-message');
+    const modalElement = document.getElementById('message-modal');
+    const modalTitleElement = document.getElementById('modal-title');
+    const modalBodyElement = document.getElementById('modal-body');
+
+    /**
+     * Shows a custom modal message.
+     * @param {string} title - The title of the message.
+     * @param {string} body - The body text of the message.
+     */
+    function showModal(title, body) {
+        modalTitleElement.textContent = title;
+        modalBodyElement.textContent = body;
+        modalElement.classList.remove('hidden');
+        modalElement.classList.add('flex');
+    }
+
+    /**
+     * Generates a random integer between 1 and 100.
+     * @returns {number} The secret number.
+     */
+    function generateSecretNumber() {
+        return Math.floor(Math.random() * 100) + 1;
+    }
+
+    /**
+     * Updates the feedback message and color based on the difference from the secret number.
+     * @param {number} difference - The absolute difference between the guess and the secret number.
+     */
+    function updateFeedback(difference) {
+        let message = '';
+        let bgColor = '';
+        let textColor = 'text-white';
+
+        // Define temperature zones (thresholds)
+        if (difference === 0) {
+            message = '🔥 Correct! Target Acquired! 🔥';
+            bgColor = 'bg-green-500';
+            textColor = 'text-[#1a1a2e]';
+        } else if (difference <= 5) {
+            message = '🥵 CRITICAL HEAT! You are inches away.';
+            bgColor = 'bg-red-600';
+        } else if (difference <= 15) {
+            message = '🔥 HOT! Closing in fast.';
+            bgColor = 'bg-orange-500';
+        } else if (difference <= 30) {
+            message = '☀️ WARM. Solid progress.';
+            bgColor = 'bg-yellow-400';
+            textColor = 'text-[#1a1a2e]';
+        } else if (difference <= 50) {
+            message = '🥶 COOL. Not bad, keep going.';
+            bgColor = 'bg-blue-400';
+        } else {
+            message = '🧊 FROZEN. You are far from the mark.';
+            bgColor = 'bg-cyan-600';
+        }
+
+        // Preserve custom feedback class, but override colors
+        const baseClass = 'feedback mb-8';
+        feedbackElement.className = `${baseClass} ${bgColor} ${textColor}`;
+        feedbackElement.textContent = message;
+    }
+
+    /**
+     * Handles the user's guess submission.
+     */
+    function handleGuess() {
+        if (isGameOver) {
+            showModal('Game Over!', 'The game is over. Click "New Game" to play again.');
+            return;
+        }
+
+        const guess = parseInt(inputElement.value, 10);
+        inputElement.value = ''; // Clear input
+
+        if (isNaN(guess) || guess < 1 || guess > 100) {
+            showModal('Invalid Guess', 'Please enter a valid number between 1 and 100.');
+            return;
+        }
+
+        guessCount++;
+        countElement.textContent = guessCount;
+
+        const difference = Math.abs(guess - secretNumber);
+        updateFeedback(difference);
+
+        if (difference === 0) {
+            isGameOver = true;
+            guessButton.disabled = true;
+            guessButton.textContent = 'TARGET REACHED';
+
+            showModal(
+                '🎉 SUCCESS! 🎉',
+                `You pinpointed the temperature ${secretNumber} in ${guessCount} attempts!`
+            );
+        } else {
+            // Provide "higher" or "lower" hint to guide the player
+            const hint = guess < secretNumber ? ' (Higher)' : ' (Lower)';
+            feedbackElement.textContent += hint;
+        }
+    }
+
+    /**
+     * Initializes the game state.
+     */
+    function initGame() {
+        secretNumber = generateSecretNumber();
+        guessCount = 0;
+        isGameOver = false;
+
+        countElement.textContent = guessCount;
+        inputElement.value = '';
+        guessButton.disabled = false;
+        guessButton.textContent = 'CHECK TEMPERATURE';
+
+        // Set initial feedback style for the dark theme
+        feedbackElement.textContent = 'Enter your first guess.';
+        feedbackElement.className = 'feedback text-gray-200 bg-[#3a3a5e] mb-8';
+
+        // Set up keyboard listener for "Enter" key
+        inputElement.removeEventListener('keypress', checkEnter);
+        inputElement.addEventListener('keypress', checkEnter);
+
+        // Focus the input field
+        inputElement.focus();
+
+        console.log(`New Game Started. Secret Number: ${secretNumber}`);
+    }
+
+    /**
+     * Keypress handler for the input field to allow guessing on Enter key.
+     * @param {KeyboardEvent} event - The keyboard event object.
+     */
+    function checkEnter(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleGuess();
+        }
+    }
+
+    // Initialize the game when the page loads
+    window.onload = initGame;
+</script>
+
+</body>
+</html>

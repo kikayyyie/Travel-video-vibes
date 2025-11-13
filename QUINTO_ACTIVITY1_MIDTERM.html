@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Boxes: The Box Model Challenge</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Styles --- */
+        
+        :root {
+            --bg-color: #0d1117; 
+            --text-color-light: #e6edf3; 
+            --text-color-accent: #58a6ff; 
+            --box1-color: #ff6b6b; 
+            --box2-color: #6bffb2; 
+            --border-color-dark: #30363d;
+            --border-color-light: #8b949e;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            padding: 30px;
+            background-color: var(--bg-color);
+            color: var(--text-color-light);
+            line-height: 1.6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1, h2 {
+            font-family: var(--font-display);
+            color: var(--text-color-accent);
+            text-align: center;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 20px;
+        }
+
+        /* Reduced the font size for the box headings (H2) */
+        h2 {
+            font-size: 1.2em; /* Reduced from 1.5em */
+            margin-top: 0;
+            margin-bottom: 5px; /* Reduced margin */
+            color: var(--text-color-light); 
+        }
+
+        p {
+            font-size: 1em;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-color-light);
+        }
+
+        .challenge-container {
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 40px; 
+            padding: 40px 20px;
+            background-color: var(--border-color-dark); 
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2); 
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* --- Common Box Styles --- */
+        .box {
+            padding: 25px; 
+            border: 8px solid var(--border-color-light); 
+            margin: 0; 
+            color: var(--bg-color); 
+            text-align: center;
+            line-height: 1.4;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: content-box; 
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+        }
+        
+        /* Reduced the font size for the box paragraph text (P) */
+        .box p {
+            font-size: 0.8em; /* Reduced from 0.9em */
+            color: var(--bg-color); 
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+
+        /* --- Box 1: "Dimensional Anomaly" (Content-Box) --- */
+        .box-1 {
+            background-color: var(--box1-color); 
+            
+            /* SOLUTION: 184px (250 - 50 - 16) */
+            width: 184px; 
+            height: 184px; 
+        }
+
+        /* --- Box 2: "Synchronized Cube" (Border-Box) --- */
+        .box-2 {
+            background-color: var(--box2-color); 
+            
+            /* SOLUTION: 250px */
+            box-sizing: border-box; 
+            width: 250px; 
+            height: 250px; 
+        }
+
+        /* --- END OF CSS --- */
+    </style>
+</head>
+<body>
+
+    <h1><span style="color: var(--box2-color);">Quantum</span> <span style="color: var(--box1-color);">Boxes</span>: The Box Model Challenge</h1>
+    <p>Your mission: Precisely calibrate these two "quantum boxes" so they both measure **exactly 250px by 250px** in total visible space (including their internal padding and external border). Observe the fundamental differences in how their dimensions are calculated!</p>
+
+    <div class="challenge-container">
+        
+        <div class="box box-1">
+            <h2>Dimensional Anomaly (Content-Box)</h2>
+            <p>This box's `width` and `height` define its **content area** only. Its padding and border are **added on top**, expanding its overall size. Calculate carefully to hit 250px total!</p>
+        </div>
+
+        <div class="box box-2">
+            <h2>Synchronized Cube (Border-Box)</h2>
+            <p>This box's `width` and `height` define its **total outer dimensions** (content + padding + border). It's much more intuitive! Just set the total size and add the special property.</p>
+        </div>
+    </div>
+
+</body>
+</html>
